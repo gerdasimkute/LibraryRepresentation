@@ -1,0 +1,64 @@
+/**
+* This class holds the librarys collection of textbooks and the number of borrowers who have been issued library cards
+ * 
+ * 16.10.18
+ */
+
+public class Library
+{
+    private TextBook[] bookShelf;
+    private int nextTextBook;
+    private int amountCardsIssued;
+  
+
+    public Library(int shelfSpace)
+    {
+        bookShelf = new TextBook[shelfSpace];
+        
+        for (int x = 0; x < shelfSpace; x+=1) {
+            TextBook book = new TextBook("Textbook " + x, 15);
+            bookShelf[x] = book;
+        }
+        amountCardsIssued = 0;
+        nextTextBook = shelfSpace;
+    }
+
+    public LibraryCard issueCard()
+    {
+        amountCardsIssued+=1;
+        return new LibraryCard(5, amountCardsIssued);
+    }
+
+    public TextBook borrowBook(LibraryCard card)
+    {
+        TextBook returnBook;
+        if (card.expired() || nextTextBook == 0) {
+            System.out.println("ERROR: Your card is expired, please apply for a new one.");
+        } else {
+            returnBook = bookShelf[nextTextBook - 1];
+            bookShelf[nextTextBook - 1] = null;
+            nextTextBook-=1;
+            card.swipe();
+            return returnBook;
+        }
+        return null;
+    }
+
+    public void returnBook(TextBook book) 
+    {
+        if (nextTextBook == bookShelf.length){
+        System.out.println("ERROR: The book shelf is full.");
+    } else
+    {
+        nextTextBook++;
+        bookShelf[nextTextBook] = book;
+    }
+    }
+
+    public void describe()
+    {
+        System.out.println("The Library has " + nextTextBook + 
+        " Books left on the shelf and has issued " + 
+            amountCardsIssued + " library card(s).");
+    }
+}
