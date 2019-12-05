@@ -1,0 +1,49 @@
+
+/**
+ * This class looks at the library cards and keeps track on how many books
+ * they have borrowed or/and how many they are allowed to borrow.
+ *
+ * 17.10.18
+ */
+
+public class LibraryCard
+{
+    private int bookLimit;
+    private int booksBorrowed;
+    private String cardRef;
+
+
+    public LibraryCard(int bookLimit, int cardNum)
+    {
+        this.bookLimit=bookLimit;
+        cardRef= "cardID" + cardNum;
+        booksBorrowed=0;
+    }
+
+    public void swipe()
+    {
+        booksBorrowed+=1;
+    }
+    
+    public boolean expired()
+    {
+        if (booksBorrowed > bookLimit) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+        public String getCardRef()
+    {
+        return this.cardRef;
+    }
+    
+        public void describe()
+    {
+        int booksLeft;
+        booksLeft = bookLimit - booksBorrowed;
+        System.out.println("Library Card" + cardRef + "with" + booksLeft +
+        "books left");
+    }
+}
