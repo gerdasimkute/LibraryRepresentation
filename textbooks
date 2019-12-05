@@ -1,0 +1,57 @@
+/**
+ * This class gives information about a library textbook and also status 
+ * of reading. 
+ * 
+ * 15.10.18
+ */
+
+public class TextBook
+{
+    private String bookTitle;
+    private int amountRead;
+    private int bookLength;
+
+
+    public TextBook(String bookTitle, int bookLength)
+    {
+        this.bookTitle = bookTitle;
+        this.bookLength = bookLength;
+        amountRead = 0;
+    }
+
+    public String getTitle()
+    {
+        return this.bookTitle;
+    }
+
+    public void readNextChapter()
+    {
+        if (amountRead < bookLength) {
+            amountRead+=1;
+        } else {
+            System.out.println("All chapters have been read. Book is completed!");
+        }
+    }
+
+    public boolean isFinished()
+    {
+        if (amountRead == bookLength) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void closeBook()
+    {
+        amountRead = 0;
+    }
+    
+    public void describe()
+    {
+        int amountLeft;
+        amountLeft = bookLength - amountRead;
+        System.out.println(bookTitle + " still has " + amountLeft + 
+        " chapters remaining to be read.");
+    }
+}
