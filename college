@@ -1,0 +1,132 @@
+/** importing libraries */
+import java.util.Random;
+import java.util.ArrayList;
+
+/**
+ * This class creates a college object that has a library and number of students.
+ * When this is run it allows the student to study via reading a borrowed book
+ * and when this book is finished the student will graduate. These actions are
+ * recorded in 'steps'. 
+ *
+ * @author 184752
+ * @version 05.12.18
+ */
+public class College
+{
+    /** instance variables - definitions */
+    private ArrayList<Student> colStudents;
+    private Library library;
+    private Random random;
+    
+    /** The method College() is a constructor for objects in the class college.
+     * This is where library, students, the array list and random number are 
+     * initialised. 
+     * @param  numOfStud of the type int  represents number of students in the library.
+     * @param  numOfText of the type int  represents the number of textbooks on the shelf.
+     * @return no value.
+     */
+    public College(int numOfStud, int numOfText)
+    {
+        library = new Library(numOfText);
+        colStudents = new ArrayList<Student>(numOfStud);
+        for (int a = 0; a < numOfStud ; a++)
+        {
+            String studName = "Student" + a;
+            colStudents.add(new Student (studName, library));
+        }
+        random = new Random();
+    }
+    
+    /** The method describe() prints out how many students there are currently,
+     * also how many books are on the shelf and how many library cards have been issued by the library.
+     * @param no parameters.
+     * @return no value.
+     */
+    public void describe()
+    {
+        System.out.println("The college currently has " + colStudents.size() 
+        + " hard working students");
+        library.describe();
+    }
+    
+    /** The method nextStep() firstly does a check to see if there are no students
+     * on the arraylist. Then does a check to see if a randomly generated student
+     * has finished studying, if so then the student 'graduates' (removed).
+     * Otherwise the study method is run. 
+     * Appropriate messages printed.
+     * @param no parameters.
+     * @return no value.
+     */
+    private void nextStep()
+    {
+        int students = colStudents.size();
+        
+        if (students <= 0)
+        {
+            System.out.println("Everything has gone quiet. ");
+        }
+        
+        else 
+        {
+          int randomStudNum = (random.nextInt(students));
+          
+          if(colStudents.get(randomStudNum).finishedStudies())
+          {
+              colStudents.remove(randomStudNum);
+              System.out.println("This student has graduted. ");
+          }
+          
+          else 
+          {
+             colStudents.get(randomStudNum).study(); 
+          }
+        }
+
+    }
+    
+    /** The method runCollege() which carries out a number of steps repeatedly
+     * and then prints out the number of steps that being carried out along 
+     * with the description of the state of the library. Lastly it invokes the
+     * nextStep() method.
+     * @param nSteps of the type int  represents the number of steps
+     * @return no value.
+     */
+    public void runCollege(int nSteps)
+    {
+       for(int a = 0; a <= nSteps; a++ )
+       {
+           System.out.println("Step" + a);
+           describe();
+           nextStep();
+       }
+    }
+    
+    /** The method main(String[] args) is needed to allow the whole project to
+     * run without BlueJ. This method first constructs a college object with 
+     * a fixed number of students and textbooks. It then invokes the runCollege()
+     * method for some specified number of steps. 
+     * @param args of type array of string  used so command line parameters
+     * can be passed to the program. 
+     */
+    public static void main(String[] args)
+    {
+        int argStud = 0;
+        int argTextb = 0;
+        int argSteps = 0;
+        
+        try
+        {
+            argStud = Integer.parseInt(args[0]);
+            argTextb = Integer.parseInt(args[1]);
+            argSteps = Integer.parseInt(args[2]);
+        }
+        
+        catch (NumberFormatException nfe) 
+        {
+            System.out.println("ERROR: must be a number!");
+        }
+        
+        College test = new College(argStud, argTextb);
+        test.runCollege(argSteps);
+    }
+}
